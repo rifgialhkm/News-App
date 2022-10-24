@@ -6,33 +6,65 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listPopMenu = [
+    var listPopMenu = [
       {'title': 'Profile', 'icon': const Icon(Icons.person_outline)},
       {'title': 'Logout', 'icon': const Icon(Icons.logout)},
     ];
+
+    var actions = [
+      PopupMenuButton<String>(
+        onSelected: ((value) {
+          handleClick(context, value);
+        }),
+        itemBuilder: (BuildContext ctx) {
+          return listPopMenu.map((ch) {
+            return PopupMenuItem<String>(
+                value: ch['title'].toString(),
+                child: ListTile(
+                    leading: ch['icon'] as Widget,
+                    title: Text(ch['title'].toString())));
+          }).toList();
+        },
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
-        actions: [
-          PopupMenuButton(
-            onSelected: ((value) {
-              handleClick(context, value);
-            }),
-            itemBuilder: ((context) {
-              return listPopMenu.map((choice) {
-                return PopupMenuItem(
-                    value: choice['title'].toString,
-                    child: ListTile(
-                      leading: choice['icon'] as Widget,
-                      title: Text(choice['title'].toString()),
-                    ));
-              }).toList();
-            }),
-          ),
-        ],
+        actions: actions,
       ),
-      body: const Center(
-        child: Text("Welcome, user!"),
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 200,
+              ),
+              child: Image.asset(
+                'assets/img/welcome.png',
+                width: 200,
+                height: 100,
+              ),
+            ),
+            Text(
+              "Welcome, user!",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(color: Colors.black),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              "This is the home page",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  ?.copyWith(color: Colors.black),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -47,8 +79,7 @@ class HomeScreen extends StatelessWidget {
             .pushNamedAndRemoveUntil('login', (route) => false);
         break;
       case 'Profile':
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('profile', (route) => false);
+        Navigator.of(context).pushNamed('profile');
         break;
     }
   }

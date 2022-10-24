@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     "News App",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Color(0xFFFF9A00),
+                          color: const Color(0xFFFF9A00),
                         ),
                   ),
                 ),
